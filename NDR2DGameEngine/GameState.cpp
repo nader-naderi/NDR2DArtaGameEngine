@@ -3,6 +3,7 @@
 #include "DEFINITIONS.hpp"
 #include <iostream>
 #include "PauseState.hpp"
+#include "GameOverState.hpp"
 
 ArtaEngine::GameState::GameState(GameDataRef data) : _data(data)
 {
@@ -56,7 +57,8 @@ void ArtaEngine::GameState::HandleInput()
 		if (this->_data->input.isSpriteClicked(this->_pauseButton, sf::Mouse::Left, this->_data->window))
 		{
 			std::cout << "Pause the Game" << std::endl;
-			this->_data->machine.AddState(StateRef(new PauseState(_data)), false);
+			//this->_data->machine.AddState(StateRef(new PauseState(_data)), false);
+			this->_data->machine.AddState(StateRef(new GameOverState(_data)), true);
 		}
 	}
 }

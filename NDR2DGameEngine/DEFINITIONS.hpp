@@ -14,6 +14,7 @@
 #define FONT_OPEN_SANS "Resources/fonts/OpenSansRegular.ttf"
 #define HUD_FILEPATH "Resources/res/hud.png"
 #define PAUSE_BG_FILEPATH "Resources/res/Paused.png"
+#define GAMEOVER_TITLE_FILEPATH "Resources/res/GameOver.png"
 
 #define PLAYER_NORMAL_FILEPATH "Resources/res/SampleGames/SpaceDodge/player/ship2.png"
 #define PLAYER_ROLL_LEFT_1_FILEPATH "Resources/res/SampleGames/SpaceDodge/ship1.png"

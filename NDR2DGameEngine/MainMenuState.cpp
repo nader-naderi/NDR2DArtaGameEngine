@@ -13,19 +13,19 @@ void ArtaEngine::MainMenuState::Init()
 {
 	// load assets.
 	this->_data->assets.LoadTexture("Background", Main_Menu_BACKGROUND_FILEPATH);
-	this->_data->assets.LoadTexture("PlayButton", GENERIC_BUTTON);
+	this->_data->assets.LoadTexture("Generic Button", GENERIC_BUTTON);
 	this->_data->assets.LoadTexture("GameTitle", MAIN_MENU_TITLE_PATH);
 	this->_data->assets.LoadFont("OpenSansFont", FONT_OPEN_SANS);
 
 	// reference loaded assets.
 	this->_background.setTexture(this->_data->assets.GetTexture("Background"));
-	this->_playButton.setTexture(this->_data->assets.GetTexture("PlayButton"));
+	this->_playButton.setTexture(this->_data->assets.GetTexture("Generic Button"));
 	this->_title.setTexture(this->_data->assets.GetTexture("GameTitle"));
 	this->_playTxt.setFont(this->_data->assets.GetFont("OpenSansFont"));
 
 	// adjust the UI
 	float playButtonX = (SCREEN_WIDTH / 2) - (this->_playButton.getGlobalBounds().width / 2);
-	float playButtonY = (SCREEN_HEIGHT / 2) - (this->_playButton.getGlobalBounds().height / 2);
+	float playButtonY = (SCREEN_HEIGHT / 3 * 2) - (this->_playButton.getGlobalBounds().height / 2);
 
 	this->_playButton.setPosition(playButtonX, playButtonY);
 
@@ -38,7 +38,8 @@ void ArtaEngine::MainMenuState::Init()
 		this->_playButton.getPosition().y + (this->_playButton.getLocalBounds().height - this->_playTxt.getLocalBounds().height) / 2
 	);
 
-	this->_title.setPosition((SCREEN_WIDTH / 2) - (this->_title.getGlobalBounds().width / 2),
+	this->_title.setPosition(
+		(SCREEN_WIDTH / 2) - (this->_title.getGlobalBounds().width / 2),
 		this->_title.getGlobalBounds().height * 0.1);
 }
 

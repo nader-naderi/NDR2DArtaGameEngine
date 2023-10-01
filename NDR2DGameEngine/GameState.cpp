@@ -2,6 +2,7 @@
 #include <sstream>
 #include "DEFINITIONS.hpp"
 #include <iostream>
+#include "PauseState.hpp"
 
 ArtaEngine::GameState::GameState(GameDataRef data) : _data(data)
 {
@@ -12,14 +13,14 @@ void ArtaEngine::GameState::Init()
 {
 	gameState = GAME_STATE_PLAYING;
 
-	this->_data->assets.LoadTexture("Pause Button", GENERIC_BUTTON);
 	this->_data->assets.LoadTexture("HUD", HUD_FILEPATH);
 	this->_data->assets.LoadTexture("Player", PLAYER_NORMAL_FILEPATH);
 	
 	_background.setTexture(this->_data->assets.GetTexture("Background"));
-	_pauseButton.setTexture(this->_data->assets.GetTexture("Pause Button"));
+	_pauseButton.setTexture(this->_data->assets.GetTexture("Generic Button"));
 	_hud.setTexture(this->_data->assets.GetTexture("HUD"));
 	_player.setTexture(this->_data->assets.GetTexture("Player"));
+	_pauseTxt.setFont(this->_data->assets.GetFont("OpenSansFont"));
 
 	_pauseButton.setPosition(this->_data->window.getSize().x - _pauseButton.getLocalBounds().width,
 		0);
@@ -55,6 +56,7 @@ void ArtaEngine::GameState::HandleInput()
 		if (this->_data->input.isSpriteClicked(this->_pauseButton, sf::Mouse::Left, this->_data->window))
 		{
 			std::cout << "Pause the Game" << std::endl;
+			this->_data->machine.AddState(StateRef(new PauseState(_data)), false);
 		}
 	}
 }
@@ -70,6 +72,8 @@ void ArtaEngine::GameState::Draw(float dt)
 
 	this->_data->window.draw(this->_background);
 	this->_data->window.draw(this->_pauseButton);
+	this->_data->window.draw(this->_pauseTxt);
+
 	this->_data->window.draw(this->_player);
 	this->_data->window.draw(this->_hud);
 

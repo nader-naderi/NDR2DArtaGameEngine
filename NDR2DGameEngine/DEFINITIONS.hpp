@@ -13,6 +13,7 @@
 #define MAIN_MENU_TITLE_PATH "Resources/res/Game Title.png"
 #define FONT_OPEN_SANS "Resources/fonts/OpenSansRegular.ttf"
 #define HUD_FILEPATH "Resources/res/hud.png"
+#define PAUSE_BG_FILEPATH "Resources/res/Paused.png"
 
 #define PLAYER_NORMAL_FILEPATH "Resources/res/SampleGames/SpaceDodge/player/ship2.png"
 #define PLAYER_ROLL_LEFT_1_FILEPATH "Resources/res/SampleGames/SpaceDodge/ship1.png"

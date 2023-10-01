@@ -9,6 +9,8 @@ bool ArtaEngine::InputManager::isSpriteClicked(sf::Sprite object, sf::Mouse::But
 
         return tempRect.contains(sf::Mouse::getPosition(window));
     }
+
+    return false;
 }
 
 sf::Vector2i ArtaEngine::InputManager::GetMousePosition(sf::RenderWindow& window)

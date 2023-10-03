@@ -12,6 +12,8 @@ ArtaEngine::GameState::GameState(GameDataRef data) : _data(data)
 
 void ArtaEngine::GameState::Init()
 {
+	this->m_view = _data->window.getDefaultView();
+
 	gameState = GAME_STATE_PLAYING;
 
 	this->_data->assets.LoadTexture("HUD", HUD_FILEPATH);

@@ -11,6 +11,8 @@ ArtaEngine::PauseState::PauseState(GameDataRef data) : _data(data)
 
 void ArtaEngine::PauseState::Init()
 {
+	this->m_view = _data->window.getDefaultView();
+
 	this->_data->assets.LoadTexture("Pause Background", PAUSE_BG_FILEPATH);
 	
 	_background.setTexture(this->_data->assets.GetTexture("Pause Background"));

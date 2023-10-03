@@ -6,11 +6,13 @@
 
 ArtaEngine::SplashState::SplashState(GameDataRef data) : _data(data)
 {
-
+	
 }
 
 void ArtaEngine::SplashState::Init()
 {
+	this->m_view = _data->window.getDefaultView();
+
 	this->_data->assets.LoadTexture("Splash State Background", SPLASH_SCENE_BACKGROUND_FILEPATH);
 
 	_background.setTexture(this->_data->assets.GetTexture("Splash State Background"));

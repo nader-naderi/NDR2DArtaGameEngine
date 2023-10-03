@@ -11,6 +11,8 @@ ArtaEngine::MainMenuState::MainMenuState(GameDataRef data) : _data(data)
 
 void ArtaEngine::MainMenuState::Init()
 {
+	this->m_view = _data->window.getDefaultView();
+
 	// load assets.
 	this->_data->assets.LoadTexture("Background", Main_Menu_BACKGROUND_FILEPATH);
 	this->_data->assets.LoadTexture("Generic Button", GENERIC_BUTTON);

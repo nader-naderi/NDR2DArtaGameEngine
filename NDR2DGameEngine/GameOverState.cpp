@@ -11,6 +11,8 @@ ArtaEngine::GameOverState::GameOverState(GameDataRef data) : _data(data)
 
 void ArtaEngine::GameOverState::Init()
 {
+	this->m_view = _data->window.getDefaultView();
+
 	this->_data->assets.LoadTexture("GameOver Title", GAMEOVER_TITLE_FILEPATH);
 
 	this->_gameOverTitle.setTexture(this->_data->assets.GetTexture("GameOver Title"));

@@ -3,6 +3,7 @@
 
 ArtaEngine::Game::Game(int width, int height, std::string title)
 {
+	_data->sceneManager = SceneManager();
 	int styles = sf::Style::Close | sf::Style::Titlebar;
 	_data->window.create(sf::VideoMode(width, height), title, styles);
 	_data->machine.AddState(StateRef(new SplashState(this->_data)));

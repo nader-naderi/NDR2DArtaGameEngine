@@ -1,20 +1,23 @@
 #pragma once
-#include <SFML/Graphics.hpp>
-#include "Game.hpp"
+#include "GameObject.hpp"
 
 namespace ArtaEngine 
 {
 	class Scene
 	{
 	public:
-		Scene(GameDataRef data) {}
-		virtual ~Scene() {}
+		Scene() {}
+		~Scene() {}
 
-		virtual void Init() {}
-		virtual void Update(float dt) {}
-		virtual void Draw() {}
+		void Init();
+		void Update(float dt);
 
+		void AddGameObject(GameObject& gameObejct);
+		void RemoveGameObject(GameObject& gameObejct);
+		void ClearScene();
+		void HandleInput(sf::Event& sfEvent);
+		void Draw(sf::RenderWindow& window);
 	private:
-		GameDataRef data;
+		std::vector<GameObject> _gameObjects;
 	};
 }

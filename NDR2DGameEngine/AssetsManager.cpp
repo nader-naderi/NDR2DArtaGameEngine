@@ -3,13 +3,18 @@
 
 void ArtaEngine::AssetsManager::LoadTexture(std::string name, std::string fileName)
 {
-	sf::Texture tex;
+    sf::Texture tex;
 
-	if (tex.loadFromFile(fileName))
-	{
-		this->_textures[name] = tex;
-	}
+    if (tex.loadFromFile(fileName))
+    {
+        this->_textures[name] = tex;
+    }
+    else
+    {
+        std::cerr << "Failed to load texture: " << name << " from " << fileName << std::endl;
+    }
 }
+
 
 sf::Texture& ArtaEngine::AssetsManager::GetTexture(std::string name)
 {
@@ -24,6 +29,10 @@ void ArtaEngine::AssetsManager::LoadFont(std::string name, std::string fileName)
 	{
 		this->_fonts[name] = font;
 	}
+    else
+    {
+        std::cerr << "Failed to load font: " << name << " from " << fileName << std::endl;
+    }
 }
 
 sf::Font& ArtaEngine::AssetsManager::GetFont(std::string name)

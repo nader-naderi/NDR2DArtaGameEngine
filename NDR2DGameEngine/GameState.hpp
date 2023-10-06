@@ -16,14 +16,16 @@ namespace ArtaEngine
 		void Update(float dt);
 		void Draw(float dt);
 
+		void UpdateCameraBehaviour(float dt);
+
 	private:
 		GameDataRef _data;
 		sf::Sprite _background;
 		sf::Sprite _pauseButton;
-		sf::Sprite _player;
 		sf::Sprite _hud;
 		sf::Text _pauseTxt;
-
+		sf::View m_camera;
+		sf::View m_toolbarView;
 		int gameState;
 	};
 }

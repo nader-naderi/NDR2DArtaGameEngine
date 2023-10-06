@@ -18,20 +18,24 @@ void ArtaEngine::GameState::Init()
 
 	this->_data->assets.LoadTexture("HUD", HUD_FILEPATH);
 	this->_data->assets.LoadTexture("Player", PLAYER_NORMAL_FILEPATH);
-	
+
+	GameObject player = GameObject("player", sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200),
+		this->_data->assets.GetTexture("Player"));
+
+	_data->sceneManager.AddGameObject(player);
+
 	_background.setTexture(this->_data->assets.GetTexture("Background"));
 	_pauseButton.setTexture(this->_data->assets.GetTexture("Generic Button"));
 	_hud.setTexture(this->_data->assets.GetTexture("HUD"));
-	_player.setTexture(this->_data->assets.GetTexture("Player"));
 	_pauseTxt.setFont(this->_data->assets.GetFont("OpenSansFont"));
 
 	_pauseButton.setPosition(this->_data->window.getSize().x - _pauseButton.getLocalBounds().width,
 		0);
-	
+
 	_pauseTxt.setFont(this->_data->assets.GetFont("OpenSansFont"));
 
 	_hud.setPosition(this->_data->window.getSize().x - _hud.getLocalBounds().width, this->_data->window.getSize().y - _hud.getLocalBounds().height);
-	
+
 	this->_pauseTxt.setCharacterSize(12);
 	this->_pauseTxt.setFillColor(sf::Color::Black);
 	this->_pauseTxt.setString("PAUSE");
@@ -40,9 +44,6 @@ void ArtaEngine::GameState::Init()
 		this->_pauseButton.getPosition().x + (this->_pauseButton.getLocalBounds().width - this->_pauseTxt.getLocalBounds().width) / 2,
 		this->_pauseButton.getPosition().y + (this->_pauseButton.getLocalBounds().height - this->_pauseTxt.getLocalBounds().height) / 2
 	);
-
-	this->_player.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200);
-
 }
 
 void ArtaEngine::GameState::HandleInput()
@@ -62,24 +63,64 @@ void ArtaEngine::GameState::HandleInput()
 			//this->_data->machine.AddState(StateRef(new PauseState(_data)), false);
 			this->_data->machine.AddState(StateRef(new GameOverState(_data)), true);
 		}
+
+		_data->sceneManager.GetActiveScene().HandleInput(sfEvent);
 	}
 }
 
 void ArtaEngine::GameState::Update(float dt)
 {
+	_data->sceneManager.GetActiveScene().Update(dt);
 
+	UpdateCameraBehaviour(dt);
 }
 
 void ArtaEngine::GameState::Draw(float dt)
 {
 	this->_data->window.clear();
 
-	this->_data->window.draw(this->_background);
-	this->_data->window.draw(this->_pauseButton);
-	this->_data->window.draw(this->_pauseTxt);
 
-	this->_data->window.draw(this->_player);
+	// draw toolbar
+	this->_data->window.setView(m_toolbarView);
+
+	this->_data->window.draw(this->_background);
+	_data->sceneManager.DrawActiveScene(this->_data->window);
+
+
+	this->_data->window.setView(m_view);
+
+	this->_data->window.draw(this->_pauseTxt);
+	this->_data->window.draw(this->_pauseButton);
 	this->_data->window.draw(this->_hud);
+	this->_data->window.setView(m_camera);
 
 	this->_data->window.display();
+}
+
+void ArtaEngine::GameState::UpdateCameraBehaviour(float dt)
+{
+	sf::Vector2f horizontal = sf::Vector2f(0.0f, 0.0f);
+	sf::Vector2f vertical = sf::Vector2f(0.0f, 0.0f);
+
+	float moveSpeed = 20.0f * dt;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+	{
+		horizontal = sf::Vector2f(-moveSpeed, 0.0f);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+	{
+		horizontal = sf::Vector2f(moveSpeed, 0.0f);
+	}
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+	{
+		vertical = sf::Vector2f(0.0f, moveSpeed);
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+	{
+		vertical = sf::Vector2f(0.0f, -moveSpeed);
+	}
+
+	m_camera.move(horizontal + vertical);
 }

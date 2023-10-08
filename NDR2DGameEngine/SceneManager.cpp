@@ -40,4 +40,7 @@ ArtaEngine::Scene& ArtaEngine::SceneManager::GetActiveScene()
 {
 	if (_activeSceneIndex >= 0 && _activeSceneIndex < _scenes.size())
 		return _scenes[_activeSceneIndex];
+
+	static Scene invalidScene;
+	return invalidScene;
 }

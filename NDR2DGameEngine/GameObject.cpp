@@ -1,4 +1,10 @@
 #include "GameObject.hpp"
+#include "Component.hpp"
+ArtaEngine::GameObject::GameObject(std::string name)
+{
+	this->_name = name;
+	AddComponent(std::make_shared<Transform>());
+}
 
 ArtaEngine::GameObject::GameObject()
 {
@@ -81,7 +87,4 @@ std::string ArtaEngine::GameObject::GetName()
 	return _name;
 }
 
-ArtaEngine::Transform& ArtaEngine::GameObject::transform()
-{
-	return *GetComponent<Transform>();
-}
+

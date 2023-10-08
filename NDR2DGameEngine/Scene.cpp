@@ -38,7 +38,11 @@ void ArtaEngine::Scene::Draw(sf::RenderWindow& window)
 {
 	for (auto& gameObject : _gameObjects)
 	{
-		std::cout << "Has texture: " << gameObject.HasTexture() << std::endl;
-		window.draw(gameObject);
+		std::shared_ptr<SpriteRenderer> renderer = gameObject.GetComponent<SpriteRenderer>();
+
+		if (renderer == nullptr)
+			continue;
+
+		window.draw(*renderer);
 	}
 }

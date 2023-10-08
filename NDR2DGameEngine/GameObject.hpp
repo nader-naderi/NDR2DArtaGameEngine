@@ -1,13 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "Component.hpp"
 
-// TODO: Create Components and add them to the gameobejcts. (Transform, SpriteRenderer, Rigidbody, CustomScriptBehaviour, etc. )
 namespace ArtaEngine
 {
-	class GameObject : public sf::Transformable, public sf::Drawable
+	class Component;
+	class Transform;
+
+	class GameObject
 	{
 	public:
+		GameObject(std::string name);
 		GameObject();
 		~GameObject() {}
 
@@ -24,7 +26,10 @@ namespace ArtaEngine
 		template <typename T>
 		std::shared_ptr<T> GetComponent();
 
-		Transform& transform();
+		inline ArtaEngine::Transform& transform()
+		{
+			return *GetComponent<Transform>();
+		}
 
 	protected:
 		std::string _name;
@@ -39,7 +44,7 @@ namespace ArtaEngine
 	{
 		for (const auto& component : components)
 		{
-			std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>;
+			std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);
 			if (castedComponent)
 				return castedComponent;
 		}
@@ -47,3 +52,4 @@ namespace ArtaEngine
 		return nullptr;
 	}
 }
+

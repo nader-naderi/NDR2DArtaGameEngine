@@ -4,6 +4,7 @@
 #include <iostream>
 #include "PauseState.hpp"
 #include "GameOverState.hpp"
+#include "Component.hpp"
 
 ArtaEngine::GameState::GameState(GameDataRef data) : _data(data)
 {
@@ -19,8 +20,13 @@ void ArtaEngine::GameState::Init()
 	this->_data->assets.LoadTexture("HUD", HUD_FILEPATH);
 	this->_data->assets.LoadTexture("Player", PLAYER_NORMAL_FILEPATH);
 
-	GameObject player = GameObject("player", sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200),
-		this->_data->assets.GetTexture("Player"));
+	GameObject player = GameObject("player");
+
+
+	player.transform().SetPosition(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200));
+
+	sf::Texture& playerTexture = this->_data->assets.GetTexture("Player");
+	player.AddComponent(std::make_shared<SpriteRenderer>(&playerTexture));
 
 	_data->sceneManager.AddGameObject(player);
 

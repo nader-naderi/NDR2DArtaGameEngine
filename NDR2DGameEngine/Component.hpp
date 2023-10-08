@@ -65,6 +65,12 @@ namespace ArtaEngine {
 			target.draw(this->_sprite, this->getTransform());
 		}
 
+		void draw(sf::RenderTarget& target, sf::RenderStates states) const override
+		{
+			states.transform *= getTransform(); // Apply the transformation
+			target.draw(this->_sprite, states); // Draw the sprite
+		}
+
 	private:
 		sf::Sprite _sprite;
 	public:

@@ -41,8 +41,9 @@ void ArtaEngine::MainMenuState::Init()
 	);
 
 	this->_title.setPosition(
-		(SCREEN_WIDTH / 2) - (this->_title.getGlobalBounds().width / 2),
-		this->_title.getGlobalBounds().height * 0.1);
+		(SCREEN_WIDTH / 2) - (static_cast<float>(this->_title.getGlobalBounds().width) / 2),
+		this->_title.getGlobalBounds().height * 0.1f);
+
 }
 
 void ArtaEngine::MainMenuState::HandleInput()

@@ -4,7 +4,7 @@
 #include "Game.hpp"
 
 namespace ArtaEngine
-{
+{	
 	class GameState : public State
 	{
 	public:

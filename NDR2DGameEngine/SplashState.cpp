@@ -16,7 +16,10 @@ void ArtaEngine::SplashState::Init()
 	this->_data->assets.LoadTexture("Splash State Background", SPLASH_SCENE_BACKGROUND_FILEPATH);
 
 	_background.setTexture(this->_data->assets.GetTexture("Splash State Background"));
-	_background.setOrigin(_background.getTexture()->getSize().x / 2, _background.getTexture()->getSize().y / 2);
+
+	_background.setOrigin(static_cast<float>(_background.getTexture()->getSize().x) / 2,
+		static_cast<float>(_background.getTexture()->getSize().y) / 2);
+
 	_background.setPosition(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 }
 

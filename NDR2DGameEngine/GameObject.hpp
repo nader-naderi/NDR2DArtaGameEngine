@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Component.hpp"
+
 // TODO: Create Components and add them to the gameobejcts. (Transform, SpriteRenderer, Rigidbody, CustomScriptBehaviour, etc. )
 namespace ArtaEngine
 {
@@ -7,36 +9,41 @@ namespace ArtaEngine
 	{
 	public:
 		GameObject();
-		GameObject(std::string name);
-		GameObject(std::string name, sf::Vector2f position);
-		GameObject(std::string name, sf::Vector2f position, float angle);
-		GameObject(std::string name, sf::Vector2f position, sf::Texture texture);
-		GameObject(std::string name, sf::Vector2f position, float angle, sf::Texture sprite);
-		GameObject(sf::Texture sprite);
 		~GameObject() {}
 
-		void SetTexture(sf::Texture sprite);
-		void SetPosition(float x, float y);
-		void SetPosition(sf::Vector2f newPosition);
-		void SetRotation(float angle);
-		void Rotate(float angle);
 		void Update(float deltaTime);
 		void HandleInput(sf::Event sfEvent);
-		std::string GetName() { return _name; }
+		void Render(sf::RenderTarget& target, sf::RenderStates states);
+		void AddComponent(std::shared_ptr<Component> component);
 		
-		bool HasTexture() const
-		{
-			return _sprite.getTexture() != nullptr;
-		}
+		void SetActive(bool isActive);
+		bool IsActive() const;
+
+		std::string GetName();
+		
+		template <typename T>
+		std::shared_ptr<T> GetComponent();
+
+		Transform& transform();
 
 	protected:
-		// fields
-		sf::Sprite _sprite;
-		sf::Vector2f _position;
 		std::string _name;
-		float _rotation;
 
-		// methods.
-		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	private:
+		std::vector < std::shared_ptr<Component>> components;
+		bool isActive;
 	};
+
+	template<typename T>
+	inline std::shared_ptr<T> GameObject::GetComponent()
+	{
+		for (const auto& component : components)
+		{
+			std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>;
+			if (castedComponent)
+				return castedComponent;
+		}
+
+		return nullptr;
+	}
 }

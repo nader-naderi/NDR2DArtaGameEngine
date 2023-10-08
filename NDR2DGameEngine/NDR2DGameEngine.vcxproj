@@ -134,6 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssetsManager.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="EditorCamera.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AssetsManager.hpp" />
+    <ClInclude Include="Component.hpp" />
     <ClInclude Include="DEFINITIONS.hpp" />
     <ClInclude Include="EditorCamera.hpp" />
     <ClInclude Include="Game.hpp" />

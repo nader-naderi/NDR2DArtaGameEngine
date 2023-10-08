@@ -6,7 +6,6 @@
 #include "StateMachine.hpp"
 #include "AssetsManager.hpp"
 #include "InputManager.hpp"
-#include "GameObject.hpp"
 #include "SceneManager.hpp"
 
 namespace ArtaEngine

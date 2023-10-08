@@ -3,78 +3,18 @@
 ArtaEngine::GameObject::GameObject()
 {
 	this->_name = "New GameObject";
-}
-
-ArtaEngine::GameObject::GameObject(std::string name)
-{
-	this->_name = name;
-}
-
-ArtaEngine::GameObject::GameObject(std::string name, sf::Vector2f position)
-{
-	this->_name = name;
-	this->SetPosition(position);
-}
-
-ArtaEngine::GameObject::GameObject(std::string name, sf::Vector2f position, float angle)
-{
-	this->_name = name;
-	this->SetPosition(position);
-	this->SetRotation(angle);
-}
-
-ArtaEngine::GameObject::GameObject(std::string name, sf::Vector2f position, float angle, sf::Texture texture)
-{
-	this->_name = name;
-	this->SetPosition(position);
-	this->SetRotation(angle);
-	SetTexture(texture);
-}
-
-ArtaEngine::GameObject::GameObject(std::string name, sf::Vector2f position, sf::Texture texture)
-{
-	this->_name = name;
-	this->SetPosition(position);
-	SetTexture(texture);
-}
-
-ArtaEngine::GameObject::GameObject(sf::Texture texture)
-{
-	SetTexture(texture);
-}
-
-void ArtaEngine::GameObject::SetTexture(sf::Texture texture)
-{
-	this->_sprite.setTexture(texture);
-}
-
-void ArtaEngine::GameObject::SetPosition(float x, float y)
-{
-	this->_position.x = x;
-	this->_position.y = y;
-	this->_sprite.setPosition(_position);
-}
-
-void ArtaEngine::GameObject::SetPosition(sf::Vector2f newPosition)
-{
-	SetPosition(newPosition.x, newPosition.y);
-}
-
-void ArtaEngine::GameObject::SetRotation(float angle)
-{
-	this->_rotation = angle;
-	this->_sprite.setRotation(this->_rotation);
-}
-
-void ArtaEngine::GameObject::Rotate(float angle)
-{
-	this->_rotation += angle;
-	this->_sprite.rotate(angle);
+	AddComponent(std::make_shared<Transform>());
 }
 
 void ArtaEngine::GameObject::Update(float deltaTime)
 {
+	for (auto& component : components)
+	{
+		if (!component->IsActive())
+			return;
 
+		component->Update();
+	}
 }
 
 void ArtaEngine::GameObject::HandleInput(sf::Event sfEvent)
@@ -109,8 +49,39 @@ void ArtaEngine::GameObject::HandleInput(sf::Event sfEvent)
 	}
 }
 
-void ArtaEngine::GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void ArtaEngine::GameObject::Render(sf::RenderTarget& target, sf::RenderStates states)
 {
-	states.transform *= getTransform();
-	target.draw(_sprite, states);
+	for (auto& component : components)
+	{
+		if (!component->IsActive())
+			return;
+
+		component->Render(target);
+	}
+}
+
+void ArtaEngine::GameObject::AddComponent(std::shared_ptr<Component> component)
+{
+	components.push_back(component);
+	component->SetOwner(this);
+}
+
+void ArtaEngine::GameObject::SetActive(bool isActive)
+{
+	this->isActive = isActive;
+}
+
+bool ArtaEngine::GameObject::IsActive() const
+{
+	return this->isActive;
+}
+
+std::string ArtaEngine::GameObject::GetName()
+{
+	return _name;
+}
+
+ArtaEngine::Transform& ArtaEngine::GameObject::transform()
+{
+	return *GetComponent<Transform>();
 }

@@ -4,12 +4,33 @@ ArtaEngine::GameObject::GameObject(std::string name)
 {
 	this->_name = name;
 	AddComponent(std::make_shared<Transform>());
+
+	Initializers();
 }
 
 ArtaEngine::GameObject::GameObject()
 {
 	this->_name = "New GameObject";
 	AddComponent(std::make_shared<Transform>());
+
+	Initializers();
+}
+
+void ArtaEngine::GameObject::Initializers()
+{
+	for (auto& component : components)
+	{
+		std::cout << "iterating to init components \n";
+		if (!component->IsActive())
+		{
+			std::cout <<"Component of type: " << typeid(component).name() << " is not active, skipping it.\n";
+			return;
+		}
+
+		component->Awake(); // Call Awake before Start
+		component->Start(); // Call Start before Update
+		std::cout << "asas\n";
+	}
 }
 
 void ArtaEngine::GameObject::Update(float deltaTime)
@@ -19,7 +40,7 @@ void ArtaEngine::GameObject::Update(float deltaTime)
 		if (!component->IsActive())
 			return;
 
-		component->Update();
+		component->Update(deltaTime);
 	}
 }
 
@@ -70,6 +91,9 @@ void ArtaEngine::GameObject::AddComponent(std::shared_ptr<Component> component)
 {
 	components.push_back(component);
 	component->SetOwner(this);
+
+	component->Awake(); // Call Awake before Start
+	component->Start(); // Call Start before Update
 }
 
 void ArtaEngine::GameObject::SetActive(bool isActive)

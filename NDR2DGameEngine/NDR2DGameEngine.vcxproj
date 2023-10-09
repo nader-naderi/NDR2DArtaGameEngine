@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArtaBehaviour.cpp" />
     <ClCompile Include="AssetsManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EditorCamera.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArtaBehaviour.hpp" />
     <ClInclude Include="AssetsManager.hpp" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="DEFINITIONS.hpp" />

@@ -5,7 +5,9 @@
 #include "PauseState.hpp"
 #include "GameOverState.hpp"
 #include "Component.hpp"
+#include "Player.hpp"
 
+// this is our editor state. we need runtime state as well.
 ArtaEngine::GameState::GameState(GameDataRef data) : _data(data)
 {
 
@@ -17,20 +19,24 @@ void ArtaEngine::GameState::Init()
 
 	gameState = GAME_STATE_PLAYING;
 
+	// asset loader
+	// TODO: Show all of the assets inside of the assets explorer (project dispaly or something.)
 	this->_data->assets.LoadTexture("HUD", HUD_FILEPATH);
 	this->_data->assets.LoadTexture("Player", PLAYER_NORMAL_FILEPATH);
+	
+	// GameObject Creation processA:
+	// TODO: could be the In Editor gameobject creation process.
+	GameObject player = GameObject("Player");
 
-	GameObject player = GameObject("player");
+	// attach the created custom script arta behaviour to the gameObject:
+	// TODO: Add a new componenet in the inspector by add component button.
+	// TODO: Show in the inspector all of the copmonents attached
+	player.AddComponent(std::make_shared<Astroids::Player>(this->_data->assets.GetTexture("Player"), &player));
 
-	sf::Texture& playerTexture = this->_data->assets.GetTexture("Player");
-	player.AddComponent(std::make_shared<SpriteRenderer>(&playerTexture));
-
-	player.transform().Init(&player.GetComponent<SpriteRenderer>()->GetSprite());
-
-	player.transform().SetPosition(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200));
-
+	// add the created gameobject to the scene.
 	_data->sceneManager.AddGameObject(player);
 
+	// rest. (all of them have to be in the ECS and editor pipeline)
 	_background.setTexture(this->_data->assets.GetTexture("Background"));
 	_pauseButton.setTexture(this->_data->assets.GetTexture("Generic Button"));
 	_hud.setTexture(this->_data->assets.GetTexture("HUD"));
@@ -110,7 +116,6 @@ void ArtaEngine::GameState::UpdateCameraBehaviour(float dt)
 	sf::Vector2f vertical = sf::Vector2f(0.0f, 0.0f);
 
 	float moveSpeed = 20.0f * dt;
-
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 	{
 		horizontal = sf::Vector2f(-moveSpeed, 0.0f);

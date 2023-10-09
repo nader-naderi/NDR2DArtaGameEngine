@@ -8,12 +8,15 @@ namespace ArtaEngine {
 	class Component
 	{
 	public:
-		virtual void Update() {}
+		virtual void Update(float dt) = 0;
+		virtual void Awake() = 0;
+		virtual void Start() = 0;
+
 		virtual void Render(sf::RenderTarget& window) {}
 		virtual bool IsActive() const { return true; }
 		virtual void SetOwner(GameObject* owner) {
 			gameObject = owner; 
-			std::cout << "my owner is: " + owner->GetName() << std::endl;
+			std::cout << "a new component added to: " + owner->GetName() << " GameObejct" << std::endl;
 		}
 
 	protected:
@@ -30,7 +33,11 @@ namespace ArtaEngine {
 			this->sprite = sprite;
 		}
 
-		void Update() override {}
+		void Awake() override {};
+
+		void Start() override {};
+
+		void Update(float dt) override {}
 
 		// Getters and Setters for position, rotation, and scale
 		sf::Vector2f GetPosition() const { return position; }
@@ -61,6 +68,15 @@ namespace ArtaEngine {
 			this->sprite->setPosition(position);
 		}
 
+		void Translate(float deltaX, float deltaY)
+		{
+			sf::Vector2f delta = sf::Vector2f(deltaX, deltaY);
+
+			position += delta;
+
+			this->sprite->setPosition(position);
+		}
+
 		void Rotate(float deltaRotation) 
 		{
 			rotation += deltaRotation; 
@@ -85,6 +101,11 @@ namespace ArtaEngine {
 	class SpriteRenderer : public Component, public sf::Drawable, public sf::Transformable
 	{
 	public:
+
+		void Awake() override {};
+		void Start() override {};
+		void Update(float dt) override {}
+
 		SpriteRenderer(sf::Texture* texture)
 		{
 			this->_sprite.setTexture(*texture);
@@ -111,6 +132,11 @@ namespace ArtaEngine {
 
 	class ColliderComponent : public Component {
 	public:
+
+		void Awake() override {};
+		void Start() override {};
+		void Update(float dt) override {}
+
 		ColliderComponent(sf::FloatRect rect)
 			: collisionRect(rect), spriteRenderer(nullptr)
 		{
@@ -145,10 +171,14 @@ namespace ArtaEngine {
 
 	class RigidbodyComponent : public Component {
 	public:
+
+		void Awake() override {};
+		void Start() override {};
+
 		RigidbodyComponent(float mass)
 			: mass(mass), velocity(0.0f, 0.0f), acceleration(0.0f, 0.0f) {}
 
-		void Update() override {
+		void Update(float dt) override {
 			// Update position based on velocity and acceleration
 			velocity += acceleration;
 			gameObject->transform().Translate(velocity);

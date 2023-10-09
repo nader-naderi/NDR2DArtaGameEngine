@@ -13,6 +13,7 @@ namespace ArtaEngine
 		GameObject();
 		~GameObject() {}
 
+		void Initializers();
 		void Update(float deltaTime);
 		void HandleInput(sf::Event sfEvent);
 		void Render(sf::RenderTarget& target, sf::RenderStates states);
@@ -36,7 +37,7 @@ namespace ArtaEngine
 
 	private:
 		std::vector < std::shared_ptr<Component>> components;
-		bool isActive;
+		bool isActive = true;
 	};
 
 	template<typename T>

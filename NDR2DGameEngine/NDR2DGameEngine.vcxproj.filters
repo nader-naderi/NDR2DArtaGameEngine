@@ -66,6 +66,9 @@
     <ClCompile Include="Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ArtaBehaviour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StateMachine.hpp">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="Player.hpp">
       <Filter>GameScripts\Astroids</Filter>
+    </ClInclude>
+    <ClInclude Include="ArtaBehaviour.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

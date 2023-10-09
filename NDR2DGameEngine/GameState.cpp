@@ -22,11 +22,12 @@ void ArtaEngine::GameState::Init()
 
 	GameObject player = GameObject("player");
 
-
-	player.transform().SetPosition(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200));
-
 	sf::Texture& playerTexture = this->_data->assets.GetTexture("Player");
 	player.AddComponent(std::make_shared<SpriteRenderer>(&playerTexture));
+
+	player.transform().Init(&player.GetComponent<SpriteRenderer>()->GetSprite());
+
+	player.transform().SetPosition(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200));
 
 	_data->sceneManager.AddGameObject(player);
 

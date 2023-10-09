@@ -1,10 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "GameObject.hpp"
+#include <iostream>
 
 namespace ArtaEngine {
-
-	class GameObject;
 
 	class Component
 	{
@@ -12,7 +11,10 @@ namespace ArtaEngine {
 		virtual void Update() {}
 		virtual void Render(sf::RenderTarget& window) {}
 		virtual bool IsActive() const { return true; }
-		virtual void SetOwner(GameObject* owner) { gameObject = owner; }
+		virtual void SetOwner(GameObject* owner) {
+			gameObject = owner; 
+			std::cout << "my owner is: " + owner->GetName() << std::endl;
+		}
 
 	protected:
 		GameObject* gameObject = nullptr;
@@ -21,23 +23,49 @@ namespace ArtaEngine {
 	class Transform : public Component {
 	public:
 		Transform(float x = 0.0f, float y = 0.0f, float rotation = 0.0f, float scaleX = 1.0f, float scaleY = 1.0f)
-			: position(x, y), rotation(rotation), scale(scaleX, scaleY) {}
+			: position(x, y), rotation(rotation), scale(scaleX, scaleY), sprite(sprite) {}
+		
+		void Init(sf::Sprite* sprite)
+		{
+			this->sprite = sprite;
+		}
 
 		void Update() override {}
 
 		// Getters and Setters for position, rotation, and scale
 		sf::Vector2f GetPosition() const { return position; }
-		void SetPosition(sf::Vector2f newPos) { position = newPos; }
+		void SetPosition(sf::Vector2f newPos)
+		{
+			position = newPos;
+			this->sprite->setPosition(position);
+		}
 
 		float GetRotation() const { return rotation; }
-		void SetRotation(float newRotation) { rotation = newRotation; }
+		void SetRotation(float newRotation) 
+		{
+			rotation = newRotation; 
+			this->sprite->setRotation(rotation);
+		}
 
 		sf::Vector2f GetScale() const { return scale; }
-		void SetScale(sf::Vector2f newScale) { scale = newScale; }
+		void SetScale(sf::Vector2f newScale) 
+		{ 
+			scale = newScale; 
+			this->sprite->setScale(scale);
+		}
 
 		// Methods for translating and rotating
-		void Translate(sf::Vector2f delta) { position += delta; }
-		void Rotate(float deltaRotation) { rotation += deltaRotation; }
+		void Translate(sf::Vector2f delta) 
+		{ 
+			position += delta; 
+			this->sprite->setPosition(position);
+		}
+
+		void Rotate(float deltaRotation) 
+		{
+			rotation += deltaRotation; 
+			this->sprite->setRotation(rotation);
+		}
 
 		// Methods to set the position, rotation, and scale directly
 		void SetTransform(sf::Vector2f newPos, float newRotation, sf::Vector2f newScale) {
@@ -50,6 +78,8 @@ namespace ArtaEngine {
 		sf::Vector2f position;
 		float rotation; // in degrees
 		sf::Vector2f scale;
+		sf::Sprite* sprite;
+
 	};
 
 	class SpriteRenderer : public Component, public sf::Drawable, public sf::Transformable
@@ -112,7 +142,7 @@ namespace ArtaEngine {
 		sf::FloatRect collisionRect;
 		SpriteRenderer* spriteRenderer;
 	};
-	
+
 	class RigidbodyComponent : public Component {
 	public:
 		RigidbodyComponent(float mass)

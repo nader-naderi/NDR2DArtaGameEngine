@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="GameScripts">
+      <UniqueIdentifier>{29ae31fc-5b68-4056-981d-2eca8c17938b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameScripts\Astroids">
+      <UniqueIdentifier>{832f1f7b-e031-4d39-8e29-f825f0344183}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -115,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="Component.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.hpp">
+      <Filter>GameScripts\Astroids</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

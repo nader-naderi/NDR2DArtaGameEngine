@@ -161,6 +161,7 @@
     <ClInclude Include="InputManager.hpp" />
     <ClInclude Include="MainMenuState.hpp" />
     <ClInclude Include="PauseState.hpp" />
+    <ClInclude Include="Player.hpp" />
     <ClInclude Include="ResourceManager.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="SceneManager.hpp" />

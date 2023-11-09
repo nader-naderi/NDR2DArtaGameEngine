@@ -36,7 +36,7 @@ namespace ArtaEngine
 		std::string _name;
 
 	private:
-		std::vector < std::shared_ptr<Component>> components;
+		std::vector <std::shared_ptr<Component>> components;
 		bool isActive = true;
 	};
 

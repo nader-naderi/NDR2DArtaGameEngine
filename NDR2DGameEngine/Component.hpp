@@ -8,19 +8,13 @@ namespace ArtaEngine {
 	class Component
 	{
 	public:
+		virtual ~Component() {}
 		virtual void Update(float dt) = 0;
 		virtual void Awake() = 0;
 		virtual void Start() = 0;
 
 		virtual void Render(sf::RenderTarget& window) {}
 		virtual bool IsActive() const { return true; }
-		virtual void SetOwner(GameObject* owner) {
-			gameObject = owner; 
-			std::cout << "a new component added to: " + owner->GetName() << " GameObejct" << std::endl;
-		}
-
-	protected:
-		GameObject* gameObject = nullptr;
 	};
 
 	class Transform : public Component {
@@ -106,6 +100,9 @@ namespace ArtaEngine {
 		void Start() override {};
 		void Update(float dt) override {}
 
+		SpriteRenderer() {}
+		~SpriteRenderer() {}
+
 		SpriteRenderer(sf::Texture* texture)
 		{
 			this->_sprite.setTexture(*texture);
@@ -175,13 +172,13 @@ namespace ArtaEngine {
 		void Awake() override {};
 		void Start() override {};
 
-		RigidbodyComponent(float mass)
-			: mass(mass), velocity(0.0f, 0.0f), acceleration(0.0f, 0.0f) {}
+		RigidbodyComponent(Transform transform, float mass)
+			: mass(mass), velocity(0.0f, 0.0f), acceleration(0.0f, 0.0f), m_transform(transform) {}
 
 		void Update(float dt) override {
 			// Update position based on velocity and acceleration
 			velocity += acceleration;
-			gameObject->transform().Translate(velocity);
+			m_transform.Translate(velocity);
 		}
 
 		// Apply a force to the rigidbody
@@ -210,5 +207,6 @@ namespace ArtaEngine {
 		float mass;
 		sf::Vector2f velocity;
 		sf::Vector2f acceleration;
+		Transform m_transform;
 	};
 }

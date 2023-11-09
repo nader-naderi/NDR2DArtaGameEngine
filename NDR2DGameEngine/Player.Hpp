@@ -8,20 +8,20 @@ using namespace ArtaEngine;
 
 namespace Astroids
 {
-	class Player : public ArtaBehaviour
+	class PlayerController : public ArtaBehaviour
 	{
 	public:
-		Player(sf::Texture& texture, ArtaEngine::GameObject* gameObject)
+		Transform m_transform;
+		SpriteRenderer m_spriteRenderer;
+
+		PlayerController(GameObject* gameObject, sf::Texture* texure)
 		{
-			GameObject* obj = gameObject;
-			obj->AddComponent(std::make_shared<SpriteRenderer>(&texture));
-
-			// Add Components and initialize them.
-			obj->transform().Init(&obj->GetComponent<SpriteRenderer>()->GetSprite());
-
-			obj->transform().SetPosition(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200));
+			m_transform = gameObject->transform();
+			gameObject->AddComponent(std::make_shared<SpriteRenderer>(texure));
+			m_spriteRenderer = *gameObject->GetComponent<SpriteRenderer>();
+			m_transform.Init(&m_spriteRenderer.GetSprite());
+			m_transform.SetPosition(sf::Vector2f(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 200));
 		}
-
 
 		void Awake() override
 		{
@@ -36,7 +36,7 @@ namespace Astroids
 
 		void Update(float dt) override
 		{
-			std::cout << "Player is calling from Update" << std::endl;
+			//std::cout << "Player is calling from Update" << std::endl;
 
 			// player logic.
 			Move();
@@ -50,11 +50,17 @@ namespace Astroids
 			float horizontalInput = InputManager::GetAxis("Horizontal");
 			float verticalInput = InputManager::GetAxis("Vertical");
 
-			Transform transform = GetGameObject()->transform();
+			if(&m_transform == NULL)
+				std::cout << "No transform" << std::endl;
 
 			sf::Vector2f movementDirection = sf::Vector2f(horizontalInput * moveSpeed, verticalInput * moveSpeed);
+			
+			//m_spriteRenderer.setPosition(movementDirection);
 
-			transform.Translate(movementDirection);
+			m_transform.Translate(movementDirection);
+		
+			std::cout << "Player Position: " << m_transform.GetPosition().x << ", " << m_transform.GetPosition().y << std::endl;
+
 		}
 
 		void Shoot()

@@ -6,7 +6,12 @@ void ArtaEngine::Scene::Init()
 }
 void ArtaEngine::Scene::Update(float dt)
 {
+	for (auto& gameObject : _gameObjects)
+	{
+		gameObject.Update(dt);
+	}
 }
+
 void ArtaEngine::Scene::AddGameObject(GameObject& gameObject)
 {
 	std::cout << "Insertion ";

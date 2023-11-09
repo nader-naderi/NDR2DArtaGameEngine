@@ -10,14 +10,14 @@ namespace ArtaEngine
 	class ArtaBehaviour : public Component
 	{
 	public:
-		ArtaEngine::GameObject* GetGameObject()
+
+		void Update(float dt) override
 		{
-			return this->gameObject;
+			this->deltaTime = dt;
 		}
 
-	private:
-		ArtaEngine::GameObject* gameObject;
-
+	protected:
+		float deltaTime;
 	};
 }
 

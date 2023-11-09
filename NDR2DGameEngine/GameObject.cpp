@@ -23,13 +23,12 @@ void ArtaEngine::GameObject::Initializers()
 		std::cout << "iterating to init components \n";
 		if (!component->IsActive())
 		{
-			std::cout <<"Component of type: " << typeid(component).name() << " is not active, skipping it.\n";
+			std::cout << "Component of type: " << typeid(component).name() << " is not active, skipping it.\n";
 			return;
 		}
 
 		component->Awake(); // Call Awake before Start
 		component->Start(); // Call Start before Update
-		std::cout << "asas\n";
 	}
 }
 
@@ -46,7 +45,7 @@ void ArtaEngine::GameObject::Update(float deltaTime)
 
 void ArtaEngine::GameObject::HandleInput(sf::Event sfEvent)
 {
-	
+
 	switch (sfEvent.type)
 	{
 	case sf::Event::KeyPressed:
@@ -90,10 +89,13 @@ void ArtaEngine::GameObject::Render(sf::RenderTarget& target, sf::RenderStates s
 void ArtaEngine::GameObject::AddComponent(std::shared_ptr<Component> component)
 {
 	components.push_back(component);
-	component->SetOwner(this);
 
-	component->Awake(); // Call Awake before Start
-	component->Start(); // Call Start before Update
+	if (component->IsActive())
+	{
+		component->Awake(); // Call Awake before Start
+		component->Start(); // Call Start before Update	
+		//component->SetOwner(*this);
+	}
 }
 
 void ArtaEngine::GameObject::SetActive(bool isActive)
@@ -110,5 +112,3 @@ std::string ArtaEngine::GameObject::GetName()
 {
 	return _name;
 }
-
-

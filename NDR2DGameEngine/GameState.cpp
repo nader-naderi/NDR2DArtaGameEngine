@@ -31,8 +31,8 @@ void ArtaEngine::GameState::Init()
 	// attach the created custom script arta behaviour to the gameObject:
 	// TODO: Add a new componenet in the inspector by add component button.
 	// TODO: Show in the inspector all of the copmonents attached
-	player.AddComponent(std::make_shared<Astroids::Player>(this->_data->assets.GetTexture("Player"), &player));
-
+	player.AddComponent(std::make_shared<Astroids::PlayerController>(&player, &this->_data->assets.GetTexture("Player")));
+	
 	// add the created gameobject to the scene.
 	_data->sceneManager.AddGameObject(player);
 
@@ -97,8 +97,6 @@ void ArtaEngine::GameState::Draw(float dt)
 	this->_data->window.setView(m_toolbarView);
 
 	this->_data->window.draw(this->_background);
-	_data->sceneManager.DrawActiveScene(this->_data->window);
-
 
 	this->_data->window.setView(m_view);
 
@@ -106,6 +104,7 @@ void ArtaEngine::GameState::Draw(float dt)
 	this->_data->window.draw(this->_pauseButton);
 	this->_data->window.draw(this->_hud);
 	this->_data->window.setView(m_camera);
+	_data->sceneManager.DrawActiveScene(this->_data->window);
 
 	this->_data->window.display();
 }
